@@ -94,5 +94,24 @@ void AAssignment3Character::Tick(float DeltaSeconds)
 
 void AAssignment3Character::Shoot()
 {
-	GetWorld()->SpawnActor<AActor>(ProjectileActor, projectileOrigin->GetComponentTransform());
+	if (MP >= 0) {
+		GetWorld()->SpawnActor<AActor>(ProjectileActor, projectileOrigin->GetComponentTransform());
+		MP -= 20;
+	}
+	
 }
+
+bool AAssignment3Character::CheckMP()
+{
+	if (MP <= 0) {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
+
+
+
+
