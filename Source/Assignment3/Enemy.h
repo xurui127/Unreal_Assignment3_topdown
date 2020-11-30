@@ -16,7 +16,7 @@ public:
 	AEnemy();
 
 	UPROPERTY(BlueprintReadOnly)
-	int HP;
+	int HP=100;
 
 	UPROPERTY(BlueprintReadWrite)
 	USkeletalMeshComponent* SkeletalMesh;
@@ -25,6 +25,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void OnHit();
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

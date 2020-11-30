@@ -14,6 +14,12 @@ AEnemy::AEnemy()
 void AEnemy::OnHit()
 {
 	HitValue = 1;
+
+	HP -= 20;
+	if (HP <= 0) 
+	{
+		Destroy();
+	}
 }
 
 // Called when the game starts or when spawned
