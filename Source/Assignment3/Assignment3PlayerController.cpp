@@ -116,5 +116,19 @@ void AAssignment3PlayerController::OnShoot()
 {
 	GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("Pew"));
 	AAssignment3Character* MyCharacter = Cast<AAssignment3Character>(GetPawn());
+	
+	FHitResult Hit;
+	GetHitResultUnderCursor(ECC_Visibility, false, Hit);
+
+	if (Hit.bBlockingHit)
+	{
+		
+		
+		FVector Dirction = Hit.ImpactPoint - MyCharacter->GetActorLocation();
+		Dirction.Z = 0;
+		MyCharacter->SetActorRotation(FRotationMatrix::MakeFromX(Dirction).Rotator());
+	}
+
+	UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, MyCharacter->GetActorLocation());
 	MyCharacter->Shoot();
 }
