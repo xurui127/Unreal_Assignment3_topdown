@@ -55,6 +55,9 @@ AAssignment3Character::AAssignment3Character()
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+
+	projectileOrigin = CreateDefaultSubobject<USceneComponent>(TEXT("ProjectileOrigin"));
+	projectileOrigin->SetupAttachment(RootComponent);
 }
 
 void AAssignment3Character::Tick(float DeltaSeconds)
@@ -87,4 +90,9 @@ void AAssignment3Character::Tick(float DeltaSeconds)
 			CursorToWorld->SetWorldRotation(CursorR);
 		}
 	}
+}
+
+void AAssignment3Character::Shoot()
+{
+	GetWorld()->SpawnActor<AActor>(ProjectileActor, projectileOrigin->GetComponentTransform());
 }

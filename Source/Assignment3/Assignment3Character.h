@@ -28,6 +28,14 @@ public:
 	int HP=100;	
 	UPROPERTY(BluePrintReadOnly)
 	int MP = 100;
+
+	UPROPERTY(visibleAnywhere)
+	USceneComponent* projectileOrigin;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AActor>ProjectileActor;
+
+	void Shoot();
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))

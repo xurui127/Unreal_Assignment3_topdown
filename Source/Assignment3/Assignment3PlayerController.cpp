@@ -37,6 +37,7 @@ void AAssignment3PlayerController::SetupInputComponent()
 	InputComponent->BindTouch(EInputEvent::IE_Repeat, this, &AAssignment3PlayerController::MoveToTouchLocation);
 
 	InputComponent->BindAction("ResetVR", IE_Pressed, this, &AAssignment3PlayerController::OnResetVR);
+	InputComponent->BindAction("Shoot", IE_Pressed, this, &AAssignment3PlayerController::OnShoot);
 }
 
 void AAssignment3PlayerController::OnResetVR()
@@ -109,4 +110,11 @@ void AAssignment3PlayerController::OnSetDestinationReleased()
 {
 	// clear flag to indicate we should stop updating the destination
 	bMoveToMouseCursor = false;
+}
+
+void AAssignment3PlayerController::OnShoot()
+{
+	GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("Pew"));
+	AAssignment3Character* MyCharacter = Cast<AAssignment3Character>(GetPawn());
+	MyCharacter->Shoot();
 }
