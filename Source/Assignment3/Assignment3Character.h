@@ -35,10 +35,20 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor>ProjectileActor;
 
+	//UPROPERTY(EditAnywhere,BluePrintReadWrite)
+		//UAnimMontage* AM_Attack;
+
 	void Shoot();
 
 
 	bool CheckMP();
+
+	bool IsAttack;
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void Attack();
+
+
 
 private:
 	/** Top down camera */

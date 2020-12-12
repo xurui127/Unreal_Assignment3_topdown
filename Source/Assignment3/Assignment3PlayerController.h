@@ -38,8 +38,17 @@ protected:
 	/** Input handlers for SetDestination action. */
 	void OnSetDestinationPressed();
 	void OnSetDestinationReleased();
-
+	
+	// Shoot projectile
 	void OnShoot();
+
+	// Player Atteck 
+	bool isAttack;
+	void OnAttack();
+
+	//Player AOE Spell
+
+	void AOESpell();
 };
 
 

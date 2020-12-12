@@ -12,6 +12,7 @@
 #include "Materials/Material.h"
 #include "Engine/World.h"
 
+
 AAssignment3Character::AAssignment3Character()
 {
 	// Set size for player capsule
@@ -58,6 +59,8 @@ AAssignment3Character::AAssignment3Character()
 
 	projectileOrigin = CreateDefaultSubobject<USceneComponent>(TEXT("ProjectileOrigin"));
 	projectileOrigin->SetupAttachment(RootComponent);
+
+	
 }
 
 void AAssignment3Character::Tick(float DeltaSeconds)
@@ -66,30 +69,32 @@ void AAssignment3Character::Tick(float DeltaSeconds)
 
 	if (CursorToWorld != nullptr)
 	{
-		if (UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
-		{
-			if (UWorld* World = GetWorld())
+		
+			if (UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
 			{
-				FHitResult HitResult;
-				FCollisionQueryParams Params(NAME_None, FCollisionQueryParams::GetUnknownStatId());
-				FVector StartLocation = TopDownCameraComponent->GetComponentLocation();
-				FVector EndLocation = TopDownCameraComponent->GetComponentRotation().Vector() * 2000.0f;
-				Params.AddIgnoredActor(this);
-				World->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, Params);
-				FQuat SurfaceRotation = HitResult.ImpactNormal.ToOrientationRotator().Quaternion();
-				CursorToWorld->SetWorldLocationAndRotation(HitResult.Location, SurfaceRotation);
-			}
+				if (UWorld* World = GetWorld())
+				{
+					FHitResult HitResult;
+					FCollisionQueryParams Params(NAME_None, FCollisionQueryParams::GetUnknownStatId());
+					FVector StartLocation = TopDownCameraComponent->GetComponentLocation();
+					FVector EndLocation = TopDownCameraComponent->GetComponentRotation().Vector() * 2000.0f;
+					Params.AddIgnoredActor(this);
+					World->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, Params);
+					FQuat SurfaceRotation = HitResult.ImpactNormal.ToOrientationRotator().Quaternion();
+					CursorToWorld->SetWorldLocationAndRotation(HitResult.Location, SurfaceRotation);
+				}
+			}else if (APlayerController* PC = Cast<APlayerController>(GetController()))
+				{
+					FHitResult TraceHitResult;
+					PC->GetHitResultUnderCursor(ECC_Visibility, true, TraceHitResult);
+					FVector CursorFV = TraceHitResult.ImpactNormal;
+					FRotator CursorR = CursorFV.Rotation();
+					CursorToWorld->SetWorldLocation(TraceHitResult.Location);
+					CursorToWorld->SetWorldRotation(CursorR);
+				}
+			
 		}
-		else if (APlayerController* PC = Cast<APlayerController>(GetController()))
-		{
-			FHitResult TraceHitResult;
-			PC->GetHitResultUnderCursor(ECC_Visibility, true, TraceHitResult);
-			FVector CursorFV = TraceHitResult.ImpactNormal;
-			FRotator CursorR = CursorFV.Rotation();
-			CursorToWorld->SetWorldLocation(TraceHitResult.Location);
-			CursorToWorld->SetWorldRotation(CursorR);
-		}
-	}
+	
 }
 
 void AAssignment3Character::Shoot()
@@ -109,7 +114,15 @@ bool AAssignment3Character::CheckMP()
 	else {
 		return true;
 	}
+	
 }
+
+
+
+
+
+
+
 
 
 

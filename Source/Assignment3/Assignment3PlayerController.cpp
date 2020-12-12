@@ -38,6 +38,8 @@ void AAssignment3PlayerController::SetupInputComponent()
 
 	InputComponent->BindAction("ResetVR", IE_Pressed, this, &AAssignment3PlayerController::OnResetVR);
 	InputComponent->BindAction("Shoot", IE_Pressed, this, &AAssignment3PlayerController::OnShoot);
+	InputComponent->BindAction("Attack", IE_Pressed, this, &AAssignment3PlayerController::OnAttack);
+	InputComponent->BindAction("Spell", IE_Pressed, this, &AAssignment3PlayerController::AOESpell);
 }
 
 void AAssignment3PlayerController::OnResetVR()
@@ -47,28 +49,39 @@ void AAssignment3PlayerController::OnResetVR()
 
 void AAssignment3PlayerController::MoveToMouseCursor()
 {
-	if (UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
-	{
-		if (AAssignment3Character* MyPawn = Cast<AAssignment3Character>(GetPawn()))
+	
+		if (UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
 		{
-			if (MyPawn->GetCursorToWorld())
+			if (AAssignment3Character* MyPawn = Cast<AAssignment3Character>(GetPawn()))
 			{
-				UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, MyPawn->GetCursorToWorld()->GetComponentLocation());
+				if (MyPawn->GetCursorToWorld())
+				{
+					
+					UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, MyPawn->GetCursorToWorld()->GetComponentLocation());
+				}
 			}
 		}
-	}
-	else
-	{
-		// Trace to see what is under the mouse cursor
-		FHitResult Hit;
-		GetHitResultUnderCursor(ECC_Visibility, false, Hit);
-
-		if (Hit.bBlockingHit)
+		else
 		{
-			// We hit something, move there
-			SetNewMoveDestination(Hit.ImpactPoint);
+			
+				
+				GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("move"));
+				// Trace to see what is under the mouse cursor
+				FHitResult Hit;
+				GetHitResultUnderCursor(ECC_Visibility, false, Hit);
+
+				if (Hit.bBlockingHit)
+				{
+					// We hit something, move there
+					SetNewMoveDestination(Hit.ImpactPoint);
+				}
+			
+
+			
+			
 		}
-	}
+	
+	
 }
 
 void AAssignment3PlayerController::MoveToTouchLocation(const ETouchIndex::Type FingerIndex, const FVector Location)
@@ -87,29 +100,39 @@ void AAssignment3PlayerController::MoveToTouchLocation(const ETouchIndex::Type F
 
 void AAssignment3PlayerController::SetNewMoveDestination(const FVector DestLocation)
 {
-	APawn* const MyPawn = GetPawn();
-	if (MyPawn)
-	{
-		float const Distance = FVector::Dist(DestLocation, MyPawn->GetActorLocation());
-
-		// We need to issue move command only if far enough in order for walk animation to play correctly
-		if ((Distance > 120.0f))
+	
+		APawn* const MyPawn = GetPawn();
+		if (MyPawn)
 		{
-			UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, DestLocation);
+			
+		
+				float const Distance = FVector::Dist(DestLocation, MyPawn->GetActorLocation());
+
+				// We need to issue move command only if far enough in order for walk animation to play correctly
+				if ((Distance > 120.0f))
+				{
+					UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, DestLocation);
+				}
+		
+			
 		}
-	}
+	
 }
 
 void AAssignment3PlayerController::OnSetDestinationPressed()
 {
 	// set flag to keep updating destination until released
-	bMoveToMouseCursor = true;
+	
+		bMoveToMouseCursor = true;
+	
 }
 
 void AAssignment3PlayerController::OnSetDestinationReleased()
 {
 	// clear flag to indicate we should stop updating the destination
-	bMoveToMouseCursor = false;
+	
+		bMoveToMouseCursor = false;
+	
 }
 
 void AAssignment3PlayerController::OnShoot()
@@ -141,4 +164,37 @@ void AAssignment3PlayerController::OnShoot()
 		GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("No Mana"));
 	}
 	
+}
+
+void AAssignment3PlayerController::OnAttack()
+{
+	
+	
+	AAssignment3Character* MyCharacter = Cast<AAssignment3Character>(GetPawn());
+	
+	FHitResult Hit;
+	GetHitResultUnderCursor(ECC_Visibility, false, Hit);
+	if (Hit.bBlockingHit)
+	{
+
+
+		FVector Dirction = Hit.ImpactPoint - MyCharacter->GetActorLocation();
+		Dirction.Z = 0;
+		MyCharacter->SetActorRotation(FRotationMatrix::MakeFromX(Dirction).Rotator());
+	}
+
+	Cast<AAssignment3Character>(GetPawn())->Attack();
+
+	//MyCharacter->Attack();
+	
+	//isAttack = true;
+
+
+	
+}
+
+void AAssignment3PlayerController::AOESpell()
+{
+
+
 }
