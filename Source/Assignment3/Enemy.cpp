@@ -2,6 +2,7 @@
 
 
 #include "Enemy.h"
+#include "Assignment3Character.h"
 
 // Sets default values
 AEnemy::AEnemy()
@@ -11,15 +12,42 @@ AEnemy::AEnemy()
 
 }
 
+// Player shoot Enemy
+
 void AEnemy::OnHit()
 {
 	HitValue = 1;
 
 	HP -= 20;
-	if (HP <= 0) 
+	isDeath();
+}
+
+// Player Attack Enemy
+void AEnemy::PunchHit()
+{
+	HitValue = 1;
+	HP -= 10;
+	isDeath();
+}
+
+void AEnemy::AOEHit()
+{
+	HitValue = 1;
+	HP -= 5;
+	isDeath();
+}
+
+bool AEnemy::isDeath()
+{
+	if (HP <= 0)
 	{
 		Destroy();
+		return true;
 	}
+	else {
+		return false;
+	}
+
 }
 
 // Called when the game starts or when spawned
@@ -39,6 +67,8 @@ void AEnemy::Tick(float DeltaTime)
 	}
 
 	SkeletalMesh->SetScalarParameterValueOnMaterials(TEXT("Hit"), HitValue);
+
+
 }
 
 // Called to bind functionality to input

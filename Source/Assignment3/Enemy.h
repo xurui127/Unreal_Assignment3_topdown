@@ -25,6 +25,14 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void OnHit();
+	UFUNCTION(BlueprintCallable)
+		void PunchHit();
+
+	UFUNCTION(BlueprintCallable)
+		void AOEHit();
+	
+	bool isDeath();
+	
 
 
 protected:

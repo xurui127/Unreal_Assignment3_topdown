@@ -11,6 +11,10 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
+#include "Enemy.h"
+
+
+
 
 
 AAssignment3Character::AAssignment3Character()
@@ -60,41 +64,46 @@ AAssignment3Character::AAssignment3Character()
 	projectileOrigin = CreateDefaultSubobject<USceneComponent>(TEXT("ProjectileOrigin"));
 	projectileOrigin->SetupAttachment(RootComponent);
 
-	
+
+
+
 }
 
 void AAssignment3Character::Tick(float DeltaSeconds)
 {
-    Super::Tick(DeltaSeconds);
+	Super::Tick(DeltaSeconds);
 
 	if (CursorToWorld != nullptr)
 	{
 		
-			if (UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
+		if (UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
+		{
+			if (UWorld* World = GetWorld())
 			{
-				if (UWorld* World = GetWorld())
-				{
-					FHitResult HitResult;
-					FCollisionQueryParams Params(NAME_None, FCollisionQueryParams::GetUnknownStatId());
-					FVector StartLocation = TopDownCameraComponent->GetComponentLocation();
-					FVector EndLocation = TopDownCameraComponent->GetComponentRotation().Vector() * 2000.0f;
-					Params.AddIgnoredActor(this);
-					World->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, Params);
-					FQuat SurfaceRotation = HitResult.ImpactNormal.ToOrientationRotator().Quaternion();
-					CursorToWorld->SetWorldLocationAndRotation(HitResult.Location, SurfaceRotation);
-				}
-			}else if (APlayerController* PC = Cast<APlayerController>(GetController()))
-				{
-					FHitResult TraceHitResult;
-					PC->GetHitResultUnderCursor(ECC_Visibility, true, TraceHitResult);
-					FVector CursorFV = TraceHitResult.ImpactNormal;
-					FRotator CursorR = CursorFV.Rotation();
-					CursorToWorld->SetWorldLocation(TraceHitResult.Location);
-					CursorToWorld->SetWorldRotation(CursorR);
-				}
-			
+				FHitResult HitResult;
+				FCollisionQueryParams Params(NAME_None, FCollisionQueryParams::GetUnknownStatId());
+				FVector StartLocation = TopDownCameraComponent->GetComponentLocation();
+				FVector EndLocation = TopDownCameraComponent->GetComponentRotation().Vector() * 2000.0f;
+				Params.AddIgnoredActor(this);
+				World->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, Params);
+				FQuat SurfaceRotation = HitResult.ImpactNormal.ToOrientationRotator().Quaternion();
+				CursorToWorld->SetWorldLocationAndRotation(HitResult.Location, SurfaceRotation);
+			}
+		}
+		else if (APlayerController* PC = Cast<APlayerController>(GetController()))
+		{
+			FHitResult TraceHitResult;
+			PC->GetHitResultUnderCursor(ECC_Visibility, true, TraceHitResult);
+			FVector CursorFV = TraceHitResult.ImpactNormal;
+			FRotator CursorR = CursorFV.Rotation();
+			CursorToWorld->SetWorldLocation(TraceHitResult.Location);
+			CursorToWorld->SetWorldRotation(CursorR);
 		}
 	
+		
+
+	}
+
 }
 
 void AAssignment3Character::Shoot()
@@ -103,7 +112,7 @@ void AAssignment3Character::Shoot()
 		GetWorld()->SpawnActor<AActor>(ProjectileActor, projectileOrigin->GetComponentTransform());
 		MP -= 20;
 	}
-	
+
 }
 
 bool AAssignment3Character::CheckMP()
@@ -114,8 +123,48 @@ bool AAssignment3Character::CheckMP()
 	else {
 		return true;
 	}
-	
+
 }
+
+//void AAssignment3Character::NotifyActorBeginOverlap(AActor* OtherActor)
+//{
+//	playerLocation = GetActorLocation();
+//	AEnemy* enemy = Cast<AEnemy>(OtherActor);
+//	enemyLocation = enemy->GetActorLocation();
+//	
+//	distance = playerLocation - enemyLocation;
+//	calDistance = distance.Size();
+//	
+//}
+
+//void AAssignment3Character::Spell()
+//{
+
+	/*if (calDistance < 1000.00f) {
+		GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("1"));
+		
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("2"));
+		
+	}*/
+//	
+//	/*playerLocation = GetActorLocation();
+//	
+//	AEnemy* myEnemy = Cast<AEnemy>(OtherActor);
+//	enemyLocation = myEnemy->enemyLocation;
+//	distance = playerLocation - enemyLocation;
+//	calDistance = distance.Size();
+//
+	/*if (calDistance < 1000) {
+		GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("10000"));
+	}*/
+//	
+//
+//}
+
+
 
 
 

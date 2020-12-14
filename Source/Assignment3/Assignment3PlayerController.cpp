@@ -6,6 +6,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Assignment3Character.h"
 #include "Engine/World.h"
+#include "Math/Vector.h"
 
 AAssignment3PlayerController::AAssignment3PlayerController()
 {
@@ -39,7 +40,7 @@ void AAssignment3PlayerController::SetupInputComponent()
 	InputComponent->BindAction("ResetVR", IE_Pressed, this, &AAssignment3PlayerController::OnResetVR);
 	InputComponent->BindAction("Shoot", IE_Pressed, this, &AAssignment3PlayerController::OnShoot);
 	InputComponent->BindAction("Attack", IE_Pressed, this, &AAssignment3PlayerController::OnAttack);
-	InputComponent->BindAction("Spell", IE_Pressed, this, &AAssignment3PlayerController::AOESpell);
+	//InputComponent->BindAction("Spell", IE_Pressed, this, &AAssignment3PlayerController::AOESpell);
 }
 
 void AAssignment3PlayerController::OnResetVR()
@@ -192,9 +193,17 @@ void AAssignment3PlayerController::OnAttack()
 
 	
 }
+//
+//void AAssignment3PlayerController::AOESpell()
+//{
+//
+//	AAssignment3Character* MyCharacter = Cast<AAssignment3Character>(GetPawn());
+//	
+//
+//
+//	MyCharacter->Spell();
+//
+//}
 
-void AAssignment3PlayerController::AOESpell()
-{
 
 
-}

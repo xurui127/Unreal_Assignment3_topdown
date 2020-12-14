@@ -4,7 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Components/ReflectionCaptureComponent.h"
+#include "Assignment3/Enemy.h"
 #include "Assignment3Character.generated.h"
+
+
+
+
+
+
+
 
 UCLASS(Blueprintable)
 class AAssignment3Character : public ACharacter
@@ -35,6 +44,8 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor>ProjectileActor;
 
+	
+
 	//UPROPERTY(EditAnywhere,BluePrintReadWrite)
 		//UAnimMontage* AM_Attack;
 
@@ -43,11 +54,29 @@ public:
 
 	bool CheckMP();
 
-	bool IsAttack;
+	//bool IsAttack;
 	
+	// Player  Call Attack 
 	UFUNCTION(BlueprintImplementableEvent)
 	void Attack();
 
+	// gey character loction
+	UPROPERTY(BlueprintReadOnly)
+		FVector playerLocation;
+	UPROPERTY(BlueprintReadOnly)
+		FVector enemyLocation;
+
+
+	FVector distance;
+	float calDistance;
+
+	//Player AOE Spell
+
+	bool isClose;
+	//UFUNCTION(BlueprintImplementableEvent)
+	//void Spell();
+	
+	//virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
 
 private:

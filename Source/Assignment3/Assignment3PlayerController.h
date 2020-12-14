@@ -2,9 +2,11 @@
 
 #pragma once
 
+
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "Assignment3PlayerController.generated.h"
+
 
 UCLASS()
 class AAssignment3PlayerController : public APlayerController
@@ -13,6 +15,8 @@ class AAssignment3PlayerController : public APlayerController
 
 public:
 	AAssignment3PlayerController();
+
+	FVector distance;
 
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
@@ -48,7 +52,10 @@ protected:
 
 	//Player AOE Spell
 
+	
 	void AOESpell();
+
+
 };
 
 
