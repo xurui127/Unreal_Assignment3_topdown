@@ -16,7 +16,7 @@ class AAssignment3PlayerController : public APlayerController
 public:
 	AAssignment3PlayerController();
 
-	FVector distance;
+	//FVector distance;
 
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
@@ -51,10 +51,12 @@ protected:
 	void OnAttack();
 
 	//Player AOE Spell
-
-	
 	void AOESpell();
 
+	//Player Drink Posions
+	void DrinkHealth();
+	void DrinkMana();
+	void DrinkSpeed();
 
 };
 

@@ -40,6 +40,9 @@ void AAssignment3PlayerController::SetupInputComponent()
 	InputComponent->BindAction("ResetVR", IE_Pressed, this, &AAssignment3PlayerController::OnResetVR);
 	InputComponent->BindAction("Shoot", IE_Pressed, this, &AAssignment3PlayerController::OnShoot);
 	InputComponent->BindAction("Attack", IE_Pressed, this, &AAssignment3PlayerController::OnAttack);
+	InputComponent->BindAction("DrinkHealth", IE_Pressed, this, &AAssignment3PlayerController::DrinkHealth);
+	InputComponent->BindAction("DrinkMana", IE_Pressed, this, &AAssignment3PlayerController::DrinkMana);
+	//InputComponent->BindAction("DrinkSpeed", IE_Pressed, this, &AAssignment3PlayerController::DrinkSpeed);
 	//InputComponent->BindAction("Spell", IE_Pressed, this, &AAssignment3PlayerController::AOESpell);
 }
 
@@ -192,6 +195,20 @@ void AAssignment3PlayerController::OnAttack()
 
 
 	
+}
+void AAssignment3PlayerController::DrinkHealth()
+{
+	Cast<AAssignment3Character>(GetPawn())->HealthDrink();
+	//GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("Call HealthDrink"));
+}
+void AAssignment3PlayerController::DrinkMana()
+{
+	Cast<AAssignment3Character>(GetPawn())->ManaDrink();
+	//GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("Call ManaDrink"));
+
+}
+void AAssignment3PlayerController::DrinkSpeed()
+{
 }
 //
 //void AAssignment3PlayerController::AOESpell()

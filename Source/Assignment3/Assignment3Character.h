@@ -33,11 +33,30 @@ public:
 	/** Returns CursorToWorld subobject **/
 	FORCEINLINE class UDecalComponent* GetCursorToWorld() { return CursorToWorld; }
 
+	//Player HP
 	UPROPERTY(BluePrintReadOnly)
 	int HP=100;	
+	//Player Mana
 	UPROPERTY(BluePrintReadOnly)
 	int MP=100 ;
 
+	// Player posions
+	UPROPERTY(BluePrintReadOnly)
+		int postion_Health = 0;
+	UPROPERTY(BluePrintReadOnly)
+		int postion_Mana = 0;
+	UPROPERTY(BluePrintReadOnly)
+		int postion_Speed = 0;
+
+	UFUNCTION(BlueprintCallable)
+		void HealthDrink();	
+	UFUNCTION(BlueprintCallable)
+		void ManaDrink();
+	//UFUNCTION(BlueprintReadOnly)
+	//	void SpeedDrink();
+
+	void CheckStatus(int num);
+	//Player Projectile
 	UPROPERTY(visibleAnywhere)
 	USceneComponent* projectileOrigin;
 

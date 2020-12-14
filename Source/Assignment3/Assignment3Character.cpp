@@ -106,6 +106,38 @@ void AAssignment3Character::Tick(float DeltaSeconds)
 
 }
 
+void AAssignment3Character::HealthDrink()
+{
+	CheckStatus(HP);
+	//GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("DrinkedHP"));
+
+	
+}
+
+void AAssignment3Character::ManaDrink()
+{
+	CheckStatus(MP);
+	//GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("DrinkedMP"));
+}
+
+//void AAssignment3Character::SpeedDrink()
+//{
+//
+//}
+
+void AAssignment3Character::CheckStatus(int num)
+{
+	if (num < 100) {
+		num += 20;
+		if (num >= 100) {
+			num = 100;
+		}
+	}
+	else {
+		num = 100;
+	}
+}
+
 void AAssignment3Character::Shoot()
 {
 	if (MP >= 0) {
