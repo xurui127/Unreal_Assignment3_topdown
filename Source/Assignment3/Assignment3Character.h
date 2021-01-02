@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Components/ReflectionCaptureComponent.h"
 #include "Assignment3/Enemy.h"
+
 #include "Assignment3Character.generated.h"
 
 
@@ -42,18 +43,24 @@ public:
 
 	// Player posions
 	UPROPERTY(BluePrintReadOnly)
-		int postion_Health = 0;
+		int potion_Health = 0;
 	UPROPERTY(BluePrintReadOnly)
-		int postion_Mana = 0;
+		int potion_Mana = 0;
 	UPROPERTY(BluePrintReadOnly)
-		int postion_Speed = 0;
+		int potion_Speed = 0;
 
 	UFUNCTION(BlueprintCallable)
 		void HealthDrink();	
 	UFUNCTION(BlueprintCallable)
 		void ManaDrink();
-	//UFUNCTION(BlueprintReadOnly)
-	//	void SpeedDrink();
+	UFUNCTION(BlueprintCallable)
+		void SpeedDrink();
+	bool speedrinked;
+	float drinkTimer = 5.0f;
+	/*UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UCharacterMovementComponent> charMove;*/
+	//UPROPERTY(BluePrintReadOnly)
+	//	AEnemy* enemy;
 
 	void CheckStatus(int num);
 	//Player Projectile
@@ -63,7 +70,11 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor>ProjectileActor;
 
-	
+	UFUNCTION(BlueprintImplementableEvent)
+		void Rolling();
+	bool isRoll;
+
+	ACharacter* enemy;
 
 	//UPROPERTY(EditAnywhere,BluePrintReadWrite)
 		//UAnimMontage* AM_Attack;
@@ -92,10 +103,27 @@ public:
 	//Player AOE Spell
 
 	bool isClose;
-	//UFUNCTION(BlueprintImplementableEvent)
+	//UFUNCTION(BlueprintCallable)
 	//void Spell();
 	
+	//Ultimate Ability
+	UPROPERTY(BlueprintReadOnly)
+		int fury = 0;
+
+
+
 	//virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+	UPROPERTY(BluePrintReadOnly)
+		int numDeath = 0;
+
+	UPROPERTY(BluePrintReadOnly)
+		int playerExe = 100;
+		
+	UPROPERTY(BluePrintReadOnly)
+		int experience = 0;
+	
+	UPROPERTY(BluePrintReadOnly)
+		int level = 1;
 
 
 private:

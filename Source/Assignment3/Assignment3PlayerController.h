@@ -16,6 +16,8 @@ class AAssignment3PlayerController : public APlayerController
 public:
 	AAssignment3PlayerController();
 
+	//Player Evasive Movement Skill
+	bool isRoll;
 	//FVector distance;
 
 protected:
@@ -51,12 +53,15 @@ protected:
 	void OnAttack();
 
 	//Player AOE Spell
-	void AOESpell();
+	//void AOESpell();
 
 	//Player Drink Posions
 	void DrinkHealth();
 	void DrinkMana();
 	void DrinkSpeed();
+
+
+	void Rolling();
 
 };
 

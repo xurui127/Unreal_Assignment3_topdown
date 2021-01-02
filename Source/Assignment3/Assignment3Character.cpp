@@ -12,6 +12,7 @@
 #include "Materials/Material.h"
 #include "Engine/World.h"
 #include "Enemy.h"
+#include "Kismet/GameplayStatics.h"
 
 
 
@@ -36,7 +37,7 @@ AAssignment3Character::AAssignment3Character()
 	// Create a camera boom...
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->SetUsingAbsoluteRotation(true); // Don't want arm to rotate when character does
+	CameraBoom->SetUsingAbsoluteRotation(true); // Don't want arm to rotate when character doesf
 	CameraBoom->TargetArmLength = 800.f;
 	CameraBoom->SetRelativeRotation(FRotator(-60.f, 0.f, 0.f));
 	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
@@ -65,7 +66,7 @@ AAssignment3Character::AAssignment3Character()
 	projectileOrigin->SetupAttachment(RootComponent);
 
 
-
+	
 
 }
 
@@ -100,7 +101,19 @@ void AAssignment3Character::Tick(float DeltaSeconds)
 			CursorToWorld->SetWorldRotation(CursorR);
 		}
 	
+		UCharacterMovementComponent* charMove = Cast<UCharacterMovementComponent>(GetCharacterMovement());
+
+		if (speedrinked==true) {
+			drinkTimer -= DeltaSeconds;
+			if (drinkTimer >= 0){
+				charMove->MaxWalkSpeed = 1200;
+			}
+			else {
+				charMove->MaxWalkSpeed = 600;
+				speedrinked = false;
+			}
 		
+		}
 
 	}
 
@@ -108,6 +121,10 @@ void AAssignment3Character::Tick(float DeltaSeconds)
 
 void AAssignment3Character::HealthDrink()
 {
+	potion_Health--;
+	if (potion_Health <= 0) {
+		potion_Health = 0;
+	}
 	CheckStatus(HP);
 	//GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("DrinkedHP"));
 
@@ -115,15 +132,30 @@ void AAssignment3Character::HealthDrink()
 }
 
 void AAssignment3Character::ManaDrink()
-{
+{	
+	potion_Mana--;
+	if (potion_Mana <= 0) {
+		potion_Mana = 0;
+	}
 	CheckStatus(MP);
 	//GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("DrinkedMP"));
+	
+
 }
 
-//void AAssignment3Character::SpeedDrink()
-//{
-//
-//}
+void AAssignment3Character::SpeedDrink()
+{
+	
+	
+	if (potion_Speed > 0) {
+		potion_Speed--;
+		speedrinked = true;
+	}
+
+	
+}
+
+
 
 void AAssignment3Character::CheckStatus(int num)
 {
@@ -137,6 +169,8 @@ void AAssignment3Character::CheckStatus(int num)
 		num = 100;
 	}
 }
+
+
 
 void AAssignment3Character::Shoot()
 {
@@ -157,6 +191,10 @@ bool AAssignment3Character::CheckMP()
 	}
 
 }
+
+
+
+
 
 //void AAssignment3Character::NotifyActorBeginOverlap(AActor* OtherActor)
 //{
@@ -181,19 +219,20 @@ bool AAssignment3Character::CheckMP()
 		GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("2"));
 		
 	}*/
-//	
-//	/*playerLocation = GetActorLocation();
-//	
-//	AEnemy* myEnemy = Cast<AEnemy>(OtherActor);
-//	enemyLocation = myEnemy->enemyLocation;
-//	distance = playerLocation - enemyLocation;
-//	calDistance = distance.Size();
-//
-	/*if (calDistance < 1000) {
-		GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("10000"));
-	}*/
-//	
-//
+	
+	//playerLocation = GetActorLocation();
+	//
+	//enemyLocation = enemy->GetEnemyLocation();
+
+	////enemyLocation = AEnemy::GetEnemyLocation();
+	//distance = playerLocation - enemyLocation;
+	//calDistance = distance.Size();
+
+	//if (calDistance < 1000) {
+	//	GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("10000"));
+	//}
+	//
+
 //}
 
 

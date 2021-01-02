@@ -42,7 +42,8 @@ void AAssignment3PlayerController::SetupInputComponent()
 	InputComponent->BindAction("Attack", IE_Pressed, this, &AAssignment3PlayerController::OnAttack);
 	InputComponent->BindAction("DrinkHealth", IE_Pressed, this, &AAssignment3PlayerController::DrinkHealth);
 	InputComponent->BindAction("DrinkMana", IE_Pressed, this, &AAssignment3PlayerController::DrinkMana);
-	//InputComponent->BindAction("DrinkSpeed", IE_Pressed, this, &AAssignment3PlayerController::DrinkSpeed);
+	InputComponent->BindAction("DrinkSpeed", IE_Pressed, this, &AAssignment3PlayerController::DrinkSpeed);
+	InputComponent->BindAction("Roll", IE_Pressed, this, &AAssignment3PlayerController::Rolling);
 	//InputComponent->BindAction("Spell", IE_Pressed, this, &AAssignment3PlayerController::AOESpell);
 }
 
@@ -69,7 +70,7 @@ void AAssignment3PlayerController::MoveToMouseCursor()
 		{
 			
 				
-				GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("move"));
+				//GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("move"));
 				// Trace to see what is under the mouse cursor
 				FHitResult Hit;
 				GetHitResultUnderCursor(ECC_Visibility, false, Hit);
@@ -144,6 +145,7 @@ void AAssignment3PlayerController::OnShoot()
 	bool checkMP;
 	AAssignment3Character* MyCharacter = Cast<AAssignment3Character>(GetPawn());
 
+	
 	checkMP = MyCharacter->CheckMP();
 	if (checkMP) {
 		GEngine->AddOnScreenDebugMessage(0, 2, FColor::Red, TEXT("Pew"));
@@ -209,6 +211,11 @@ void AAssignment3PlayerController::DrinkMana()
 }
 void AAssignment3PlayerController::DrinkSpeed()
 {
+	Cast<AAssignment3Character>(GetPawn())->SpeedDrink();
+}
+void AAssignment3PlayerController::Rolling()
+{
+	Cast<AAssignment3Character>(GetPawn())->Rolling();
 }
 //
 //void AAssignment3PlayerController::AOESpell()

@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Assignment3Character.h"
 #include "Enemy.generated.h"
+
+
 
 UCLASS()
 class ASSIGNMENT3_API AEnemy : public ACharacter
@@ -14,7 +17,7 @@ class ASSIGNMENT3_API AEnemy : public ACharacter
 public:
 	// Sets default values for this character's properties
 	AEnemy();
-
+	
 	UPROPERTY(BlueprintReadOnly)
 	int HP=100;
 
@@ -31,10 +34,35 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void AOEHit();
 	
-	bool isDeath();
+	bool isDeath;
+	
+	UFUNCTION(BlueprintCallable)
+		void DoubleHit();
+	float doubleHitTimer=5.0f;
+	
+	bool doubleHit;
+
+	UFUNCTION(BlueprintCallable)
+		void AttackPlayer(AAssignment3Character* myPlayer,  bool roll);
+
+	ACharacter* player;
 	
 
+	bool furyAdd;
 
+	float furyTimer=10.0f;
+	bool countTimer;
+	 // FVector GetEnemyLocation();
+
+
+	/*UFUNCTION(BlueprintCallable)
+		void PlayAttack(FVector playerLocation, FVector enemyLocation);
+		*/
+	UPROPERTY(EditAnywhere)
+		UAnimMontage* EnemyAttack;
+
+	UFUNCTION(BlueprintCallable)
+	void PlayAnimAttact();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
